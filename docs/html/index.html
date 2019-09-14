@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Documentation &#8212; HHCC.py  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="documentation">
+<h1>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<dl class="class">
+<dt id="HHCC.HHCC">
+<em class="property">class </em><code class="sig-prename descclassname">HHCC.</code><code class="sig-name descname">HHCC</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">ignorePickled=False</em><span class="sig-paren">)</span><a class="headerlink" href="#HHCC.HHCC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Can generate various overview plots for the plant and parameters provided from the export of the FlowerCare app by Xiaomi/HHCC.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<cite>str</cite>) – Either directly a filename (without file extention) or a directory,
+where the csv files are located. In case of a folder,
+the csv file with the most recent “date modified” is used.
+On second loading, a pickeld version of the data is loaded.</p></li>
+<li><p><strong>ignorePickled</strong> (<cite>bool</cite>) – By defualt, the pkl files are used, set to True, to do reparse the .csv files.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Variables</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>list_of_plants</strong> – a list with the names of all plants</p></li>
+<li><p><strong>minMax</strong> – For plotting we need to know the global min and max values per plotted value and per aggregation.
+[“daily”,”L”,”sum”,”amax”] gives you the maximum values that will ever be plotted for plots that
+show daily data for the sum of light.</p></li>
+<li><p><strong>param</strong> – A dict for each parameter (E, L, S, T) to define ‘color’ for the plots and ‘label’ for the data.</p></li>
+<li><p><strong>df</strong> – the actual pandas dataframe, containing the data.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
+<dt id="HHCC.HHCC.plot_allPlants">
+<code class="sig-name descname">plot_allPlants</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#HHCC.HHCC.plot_allPlants" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates one comprehensive plot for all plants and the four parameters light, temperature, nutrition and light over time. For further available settings, see <a class="reference internal" href="#HHCC.HHCC.plot_onePlant_oneParam" title="HHCC.HHCC.plot_onePlant_oneParam"><code class="xref py py-meth docutils literal notranslate"><span class="pre">HHCC.plot_onePlant_oneParam()</span></code></a> - but some might be defined along the call stack.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>store</strong> (<cite>bool</cite>, optional) – <cite>True</cite> to store the plot. Defaults to <cite>False</cite>. See <a class="reference internal" href="#HHCC.HHCC.plot_save" title="HHCC.HHCC.plot_save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">HHCC.plot_save()</span></code></a> for further details.</p></li>
+<li><p><strong>landscape</strong> (<cite>bool</cite>, optional) – <cite>True</cite> to plot the plants as colums and the params as columns. <cite>False</cite> to plot transposed. Defaults to <cite>True</cite>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="HHCC.HHCC.plot_onePlant">
+<code class="sig-name descname">plot_onePlant</code><span class="sig-paren">(</span><em class="sig-param">plant=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#HHCC.HHCC.plot_onePlant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates one plot of the four parameters light, temperature, nutrition and light over time. For further available settings, see <a class="reference internal" href="#HHCC.HHCC.plot_onePlant_oneParam" title="HHCC.HHCC.plot_onePlant_oneParam"><code class="xref py py-meth docutils literal notranslate"><span class="pre">HHCC.plot_onePlant_oneParam()</span></code></a> - but some might be defined along the call stack.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>plant</strong> (<cite>str</cite>, optional) – The plant that shall be plotted, defaults to the first plant.</p></li>
+<li><p><strong>store</strong> (<cite>bool</cite>, optional) – <cite>True</cite> to store the plot. Defaults to <cite>False</cite>. See <a class="reference internal" href="#HHCC.HHCC.plot_save" title="HHCC.HHCC.plot_save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">HHCC.plot_save()</span></code></a> for further details.</p></li>
+<li><p><strong>landscape</strong> (<cite>bool</cite>, optional) – <cite>True</cite> to provide a 2x2 plot. <cite>False</cite> to plot the parameters in one row. Defaults to <cite>True</cite>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="HHCC.HHCC.plot_onePlant_batch">
+<code class="sig-name descname">plot_onePlant_batch</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#HHCC.HHCC.plot_onePlant_batch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls <a class="reference internal" href="#HHCC.HHCC.plot_onePlant" title="HHCC.HHCC.plot_onePlant"><code class="xref py py-meth docutils literal notranslate"><span class="pre">HHCC.plot_onePlant()</span></code></a> for all available plants. For further available settings, see <a class="reference internal" href="#HHCC.HHCC.plot_onePlant_oneParam" title="HHCC.HHCC.plot_onePlant_oneParam"><code class="xref py py-meth docutils literal notranslate"><span class="pre">HHCC.plot_onePlant_oneParam()</span></code></a> - but some might be defined along the call stack.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>store</strong> (<cite>bool</cite>, optional) – <cite>True</cite> to store the plot. Defaults to <cite>False</cite>. See <a class="reference internal" href="#HHCC.HHCC.plot_save" title="HHCC.HHCC.plot_save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">HHCC.plot_save()</span></code></a> for further details.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="HHCC.HHCC.plot_onePlant_oneParam">
+<code class="sig-name descname">plot_onePlant_oneParam</code><span class="sig-paren">(</span><em class="sig-param">ax</em>, <em class="sig-param">plant</em>, <em class="sig-param">param</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#HHCC.HHCC.plot_onePlant_oneParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots dta from one plant and the passed parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ax</strong> (<cite>plt.ax</cite>) – The axis to draw the plot to.</p></li>
+<li><p><strong>plant</strong> (<cite>str</cite>) – Name of the plant (for names, check <code class="xref py py-attr docutils literal notranslate"><span class="pre">HHCC.list_of_plants</span></code>)</p></li>
+<li><p><strong>param</strong> (<cite>str</cite>) – Which of the four parameter to plot: T, E, S, L.</p></li>
+</ul>
+</dd>
+</dl>
+<p>When this function is called as part of <a class="reference internal" href="#HHCC.HHCC.plot_onePlant" title="HHCC.HHCC.plot_onePlant"><code class="xref py py-meth docutils literal notranslate"><span class="pre">HHCC.plot_onePlant()</span></code></a>, <a class="reference internal" href="#HHCC.HHCC.plot_onePlant_batch" title="HHCC.HHCC.plot_onePlant_batch"><code class="xref py py-meth docutils literal notranslate"><span class="pre">HHCC.plot_onePlant_batch()</span></code></a> or <a class="reference internal" href="#HHCC.HHCC.plot_allPlants" title="HHCC.HHCC.plot_allPlants"><code class="xref py py-meth docutils literal notranslate"><span class="pre">HHCC.plot_allPlants()</span></code></a>, the following optional parameters can be set and pass though till this function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>light_as_integral</strong> (<cite>bool</cite>, optional, passthrough) – <cite>True</cite> to show the light as integral over one day, in this case, aggFunc and aggSpan are overwritten locally. Defaults to <cite>false</cite>.</p></li>
+<li><p><strong>time_delta</strong> (<cite>str</cite>, optional) – Defines the timespan of the plots from today backwards. The passed argument is processed using <cite>pd.to_timedelta</cite>, defaults to 90 days.</p></li>
+<li><p><strong>ylims_global</strong> (<cite>bool</cite>, optional) – <cite>True</cite> to scale the y axis per parameter equally over all plants. <cite>False</cite> to scale each plot individually. Defaults to <cite>True</cite>.</p></li>
+<li><p><strong>smoothingWnd</strong> (<cite>float</cite>, optional) – optional, the window with for smoothing. Default for parameters E, S, T is 48h. L is not soothed by default. For individual adjustments, set <cite>smoothingWnd_E</cite>, <cite>smoothingWnd_S</cite>, <cite>smoothingWnd_L</cite> and/or <cite>smoothingWnd_T</cite></p></li>
+<li><p><strong>alphaOriginal</strong> (<cite>float</cite>, optional) – optional, 0.3 by default to suplress the visibility of unsmoothed data.</p></li>
+<li><p><strong>alphaSmoothed</strong> (<cite>float</cite>, optional) – optional, 1.0 by default to highlight the plot of smoothed data.</p></li>
+</ul>
+</dd>
+</dl>
+<p>The following parameters are typically pre set by the superseeding functions above.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>aggFunc</strong> (<cite>str</cite>, optional) – </p></li>
+<li><p><strong>aggSpan</strong> (<cite>str</cite>, optional) – </p></li>
+<li><p><strong>label_short</strong> (<cite>bool</cite>, optional) – <cite>True</cite> to shorten the labels. <cite>False</cite> to use the long labels. Defaults to <cite>False</cite>.</p></li>
+<li><p><strong>hide_ticks</strong> (<cite>bool</cite>, optional) – <cite>True</cite> to all x and y labels and ticks from the plot. <cite>False</cite> to show. Defaults to <cite>False</cite>. Can be refined using <cite>hide_xTicks</cite> or <cite>hide_yTicks</cite>.</p></li>
+<li><p><strong>time_labels</strong> (<cite>str</cite>, optional) – “month” to show month on the major ticks and days as minor ticks.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="HHCC.HHCC.plot_save">
+<em class="property">static </em><code class="sig-name descname">plot_save</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#HHCC.HHCC.plot_save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the current figure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>store</strong> (<cite>bool</cite>) – <cite>True</cite> to store the plot. Defaults to <cite>False</cite>. See <a class="reference internal" href="#HHCC.HHCC.plot_save" title="HHCC.HHCC.plot_save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">HHCC.plot_save()</span></code></a> for further details.</p></li>
+<li><p><strong>outputdir</strong> (<cite>str</cite>, optional) – The output directory for the plots, which can be generated. Defautls to “plots/”</p></li>
+<li><p><strong>dpi</strong> (<cite>int</cite>, optional) – The dpi of the plot, defaults to 300</p></li>
+<li><p><strong>override_name</strong> (<cite>str</cite>, optional) – Overwrites the default naming with this name.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="HHCC.HHCC.rename_plants">
+<code class="sig-name descname">rename_plants</code><span class="sig-paren">(</span><em class="sig-param">rules=None</em><span class="sig-paren">)</span><a class="headerlink" href="#HHCC.HHCC.rename_plants" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renames the plants based on the passed dict.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>rules</strong> (<cite>dict</cite>, optional) – a dict with the original and new names. If nothing is passed, the existing names are cropped after the first round bracket.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">HHCC.py</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Jan Dechent.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

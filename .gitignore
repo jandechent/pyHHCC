@@ -1,0 +1,13 @@
+# Project internal files
+*.csv
+*.pkl
+*.png
+
+# Python byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+/.directory
+
+
+*.cProfile
