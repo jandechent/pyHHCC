@@ -13,13 +13,5 @@ if __name__ == '__main__' :
     pd.set_option('display.max_columns', 10)
 
 hc = pyHHCC("examples/example")
-hc.plot_onePlant()
-hc.plot_onePlant(aggSpan="48h", aggFunc="mean")
-
-if False:
-    hc.plot_allPlants(override_name="plot_allPlants_lanscapeTrue_lightintTrue", store=True, landscape=True,light_as_integral=True)
-    hc.plot_allPlants(override_name="plot_allPlants_lanscapeFalse_lightintTrue", store=True, landscape=False,light_as_integral=True)
-    hc.plot_allPlants(override_name="plot_allPlants_lanscapeTrue_lightintFalse", store=True, landscape=True,light_as_integral=False)
-    hc.plot_allPlants(override_name="plot_allPlants_lanscapeFalse_lightintFalse", store=True, landscape=False,light_as_integral=False)
-    hc.plot_onePlant(override_name="plot_onePlant_lanscapeTrue_lightintFalse", store=True,  landscape=True,light_as_integral=False)
-    hc.plot_onePlant(override_name="plot_onePlant_lanscapeFalse_lightintFalse", store=True, landscape=False,light_as_integral=False)
+hc.plot_onePlant(override_name="plot_onePlant_hourly", outputdir="examples/", store=True)
+hc.plot_onePlant(aggSpan="48h", aggFunc="mean", override_name="plot_onePlant_mean_over_48h", outputdir="examples/", store=True)
