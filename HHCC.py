@@ -68,13 +68,15 @@ class HHCC:
             self.df = self.df.sort_values('time', ascending=False)
             self.df.to_pickle(filename+".pkl")
         self.list_of_plants = self.df.plant.unique().tolist()
-        self.__aggregateData()
+        self.__rolling_mean("none","1h","24h","48h","72h")
+        self.__aggregate_daily()
         self.__make_min_max()
         self.__consistency_check()
 
     def __make_min_max(self):
         """Find the global min and max values for the four parameter, accross all plants and all times."""
         self.minMax = self.df.pivot_table(values=["L", "T", "E", "S"], index=['aggSpan', 'aggFunc'], aggfunc=[np.min, np.max])
+        self.tmp=self.minMax.copy()
         self.minMax = self.minMax.stack().stack()
         self.minMax = self.minMax.swaplevel(1, 2)
 
@@ -135,7 +137,7 @@ class HHCC:
                         df_loop['plant'] = name
                         df_loop['mac'] = mac
                         df_loop["aggFunc"] = "none"
-                        df_loop["aggSpan"] = "hourly"
+                        df_loop["aggSpan"] = "1h"
                         self.df = self.df.append(df_loop, ignore_index=True)
                 line = fp.readline()
                 cnt += 1
@@ -169,29 +171,55 @@ class HHCC:
         noUpSinceBoolSum = noUpSinceBool.agg("sum").values[0]
         if noUpSinceBoolSum > 0:
             self.log.warning("at least one plant was not updated for %s since today:\n %s", warnTimeLimit,
-                             noUpSinceTable.sort_values(by=['no update for'], ascending=False).to_string())
+                             noUpSinceTable.sort_values(by=['no update for'], ascending=False).astype("timedelta64[D]").to_string())
         self.df.drop(["no update for"], axis=1, inplace=True)
 
-    def __aggregateData(self):
-        """ The raw data are provided on an hourly basis. This function calculates min, max, mean and sum
+    def __aggregate_daily(self):
+        """ The raw data are provided on an 1h basis. This function calculates min, max, mean and sum
         for each parameter per day. This function acts inplace on :attr:`HHCC.df`."""
-        df = self.df.copy()
+        df = self.df[(self.df["aggFunc"] == "none") & (self.df["aggSpan"] == "1h") ].copy()
         df['time'] = pd.to_datetime(df['time'].dt.date)+pd.to_timedelta("12h")
-        self.__aggretagateAppendHelper(df, np.sum, "sum", "daily")
-        self.__aggretagateAppendHelper(df, np.min, "min", "daily")
-        self.__aggretagateAppendHelper(df, np.max, "max", "daily")
-        self.__aggretagateAppendHelper(df, np.mean, "mean", "daily")
+        self.__aggregate_daily_helper(df, np.sum, "sum", "daily")
+        self.__aggregate_daily_helper(df, np.min, "min", "daily")
+        self.__aggregate_daily_helper(df, np.max, "max", "daily")
+        self.__aggregate_daily_helper(df, np.mean, "mean", "daily")
         self.df.reset_index(drop=True, inplace=True)
         self.__mem_squeeze(self.df)
         self.df = self.df.sort_values('time', ascending=False)
 
-    def __aggretagateAppendHelper(self, df, aggFunc, aggFunc_label, aggSpan):
+    def __aggregate_daily_helper(self, df, aggFunc, aggFunc_label, aggSpan):
         dd = df.pivot_table(values=["L", "T", "E", "S"], index=['time', 'plant', 'mac'], aggfunc=aggFunc)
         dd.reset_index(inplace=True)
         dd["aggFunc"] = aggFunc_label
         dd["aggSpan"] = aggSpan
         self.df = self.df.append(dd, sort=False)
 
+    def rolling_mean(self, wnds, aggFunc, aggSpan):
+        df=self.df[(self.df["aggFunc"] == aggFunc) & (self.df["aggSpan"] == aggSpan)]
+        df=df.drop("aggFunc",axis=1)
+        df=df.drop("aggSpan",axis=1)
+        df=df.set_index(["plant","mac","time"]).sort_index()
+        df_toappend = pd.DataFrame()
+        if not isinstance(wnds, list):
+            wnds = [wnds]
+        for wnd in wnds:
+            if wnd in self.df.aggSpan.unique():
+                self.log.warning("aggSpan %s already exists, skipping.",wnd)
+            else:
+                for index, sub_df in df.groupby(['plant', 'mac']):
+                    sub_df = sub_df.reset_index(['plant', 'mac'],drop=True)
+                    sub_df=sub_df.rolling(wnd).mean()
+                    sub_df["plant"] = index[0]
+                    sub_df["mac"] = index[1]
+                    sub_df["aggFunc"] = "mean" 
+                    sub_df["aggSpan"] = wnd
+                    df_toappend=df_toappend.append(sub_df.reset_index())
+        self.df = self.df.append(df_toappend,sort=False)
+        self.__mem_squeeze(self.df)
+        self.df = self.df.sort_values('time', ascending=False)
+        self.df = self.df.reset_index(drop=True)
+        self.__make_min_max()
+        
     def rename_plants(self, rules=None):
         """ Renames the plants based on the passed dict.
 
@@ -207,11 +235,10 @@ class HHCC:
             self.df["plant"].cat.rename_categories(rules, inplace=True)
         self.list_of_plants = self.df.plant.unique().tolist()
 
-    @staticmethod
-    def plot_save(name, **kwargs):
+    def plot_save(self,name, **kwargs):
         """ Stores the current figure.
         
-        :param store: `True` to store the plot. Defaults to `False`. See :meth:`HHCC.plot_save` for further details.
+        :param store: `True` to store the plot. Defaults to `False`. 
         :type store: `bool`
         :param outputdir: The output directory for the plots, which can be generated. Defautls to "plots/"
         :type outputdir: `str`, optional
@@ -219,10 +246,10 @@ class HHCC:
         :type dpi: `int`, optional
         :param override_name: Overwrites the default naming with this name. 
         :type override_name: `str`, optional"""
-        name = kwargs.get('override_name', name) 
-        outputdir = kwargs.get('outputdir', "plots/") 
-        dpi = kwargs.get('dpi', 300) 
         if kwargs.get('store', False):
+            name = kwargs.get('override_name', name) 
+            outputdir = kwargs.get('outputdir', "plots/") 
+            dpi = kwargs.get('dpi', 300) 
             plt.gcf().savefig(outputdir + name, dpi=dpi)
 
     def plot_onePlant_oneParam(self, ax, plant, param, **kwargs):
@@ -264,13 +291,13 @@ class HHCC:
         :type time_labels: `str`, optional"""
         df = self.df
         aggFunc = kwargs.get('aggFunc', "none")
-        aggSpan = kwargs.get('aggSpan', "hourly")
+        aggSpan = kwargs.get('aggSpan', "1h")
 
         if kwargs.get('light_as_integral', False) & (param == 'L'):
             aggFunc = "sum"
-            aggSpan = "daily"
-        alphaOriginal = kwargs.get('alphaOriginal', 0.2)
-        alphaSmoothed = kwargs.get('alphaSmoothed', 1.00)
+        
+        alphaOriginal = kwargs.get('alphaOriginal', 1)
+        alphaSmoothed = kwargs.get('alphaSmoothed', 1)
         time_delta = kwargs.get('time_delta', '90days')
         startTime = (pd.to_datetime(dt.datetime.now().date()) - pd.to_timedelta(time_delta))+pd.to_timedelta("24h")
         endTime = pd.to_datetime(dt.datetime.now().date())+pd.to_timedelta("24h")
@@ -287,15 +314,15 @@ class HHCC:
                         "T": kwargs.get('smoothingWnd_T', 48 if kwargs.get('smoothingWnd', "default") == "default" else kwargs.get('smoothingWnd')),
                         "L": kwargs.get('smoothingWnd_L', 1 if kwargs.get('smoothingWnd', "default") == "default" else kwargs.get('smoothingWnd'))}
         ax.plot(df, color=self.param[param]['color'], alpha=alphaOriginal) #tmp.plot would not work, because sharex somehow messes things up and some data don't show on some graph. Very stragen, but this fixes it.
-        if param == "E":
-            df = df.rolling(smoothingWnd["E"], center=True).median()
-        if param == "S":
-            df = df.rolling(smoothingWnd["S"], center=True).mean()
-        if param == "T":
-            df = df.rolling(smoothingWnd["T"], center=True).mean()
-        if param == "L":
-            df = df.rolling(smoothingWnd["L"], center=True).mean()
-        ax.plot(df, color=self.param[param]['color'], alpha=alphaSmoothed)
+#        if param == "E":
+#            df = df.rolling(smoothingWnd["E"], center=True).median()
+#        if param == "S":
+#            df = df.rolling(smoothingWnd["S"], center=True).mean()
+#        if param == "T":
+#            df = df.rolling(smoothingWnd["T"], center=True).mean()
+#        if param == "L":
+#            df = df.rolling(smoothingWnd["L"], center=True).mean()
+#        ax.plot(df, color=self.param[param]['color'], alpha=alphaSmoothed)
 
         ax.set_xlim(startTime, endTime)
         if kwargs.get('ylims_global', "True"):
@@ -370,7 +397,7 @@ class HHCC:
         fig.align_ylabels()
         plt.tight_layout(rect=[0, 0.03, 1, 0.95])
         fig.suptitle(plant, fontsize=14)
-        HHCC.plot_save("Health of " + plant, **kwargs)
+        self.plot_save("Health of " + plant, **kwargs)
 
     def plot_onePlant_batch(self, **kwargs):
         """ Calls :meth:`HHCC.plot_onePlant` for all available plants. For further available settings, see :meth:`HHCC.plot_onePlant_oneParam` - but some might be defined along the call stack.

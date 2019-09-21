@@ -1,15 +1,15 @@
-import HHCC
 import cProfile
-import pstats
 
-#hc=HHCC.HHCC("raw/")
+import HHCC
+import matplotlib.pyplot as plt
 
-profRunInit=cProfile.run("hc=HHCC.HHCC('raw/')","HHCC.init.cProfile")
-p = pstats.Stats('HHCC.init.cProfile')
-p.sort_stats('cumulative').print_stats(30)
-p.sort_stats('time').print_stats(10)
-
-profRunPlot=cProfile.run("hc.plot_onePlant()",'HHCC.plotPlant.cProfile')
-p = pstats.Stats('HHCC.plotPlant.cProfile')
-p.sort_stats('cumulative').print_stats(30)
-p.sort_stats('time').print_stats(10)
+profRunInit=cProfile.run(
+        "hc=HHCC.HHCC('raw/')",
+        "HHCC.init.cprof")
+profRunPlot=cProfile.run(
+        "hc.plot_onePlant()",
+        'HHCC.plotPlant.cprof')
+profRunPlot=cProfile.run(
+        "hc.plot_onePlant_oneParam(plt.gca(),hc.list_of_plants[0],'T')",
+        'HHCC.plot_onePlant_oneParam.cprof')
+#--> snakeviz
