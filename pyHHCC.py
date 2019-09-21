@@ -2,7 +2,7 @@
 # pylint: disable=line-too-long
 # pylint: disable=C0303 # trailing whitespace
 # pylint: disable=C0103 # snake
-""" File, containing the HHCC class """
+""" File, containing the pyHHCC class """
 
 import glob
 import os.path
@@ -15,7 +15,7 @@ import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 # register_matplotlib_converters()
 
-class HHCC:
+class pyHHCC:
     """ Can generate various overview plots for the plant and parameters provided from the export of the FlowerCare app by Xiaomi/HHCC.
     
     :param filename: Either directly a filename (without file extention) or a directory,
@@ -68,7 +68,7 @@ class HHCC:
             self.df = self.df.sort_values('time', ascending=False)
             self.df.to_pickle(filename+".pkl")
         self.list_of_plants = self.df.plant.unique().tolist()
-        self.__rolling_mean("none","1h","24h","48h","72h")
+        self.rolling_mean(["1h","24h","48h","72h"],"none","1h")
         self.__aggregate_daily()
         self.__make_min_max()
         self.__consistency_check()
@@ -81,14 +81,14 @@ class HHCC:
         self.minMax = self.minMax.swaplevel(1, 2)
 
     def __delete_sensor_fails(self):
-        """ Deletes data points, where there was a sensor failure. This function acts inplace on :attr:`HHCC.df`."""
+        """ Deletes data points, where there was a sensor failure. This function acts inplace on :attr:`pyHHCC.df`."""
         self.df = self.df[self.df["E"] < 2500]
         self.df = self.df[self.df["L"] < 10000]
         self.df = self.df[self.df["S"] < 100]
         self.df = self.df[self.df["T"] < 100]
 
     def __convert_units(self):
-        """Divide light and conductivity by 1000. This function acts inplace on :attr:`HHCC.df`."""
+        """Divide light and conductivity by 1000. This function acts inplace on :attr:`pyHHCC.df`."""
         self.df["L"] = self.df["L"]/1000
         self.df["E"] = self.df["E"]/1000
 
@@ -146,7 +146,7 @@ class HHCC:
     @staticmethod
     def __flatten(li):
         """ flattens a nested list """
-        return sum(([x] if not isinstance(x, list) else HHCC.__flatten(x) for x in li), [])
+        return sum(([x] if not isinstance(x, list) else pyHHCC.__flatten(x) for x in li), [])
 
     @staticmethod
     def __mem_squeeze(df):
@@ -163,7 +163,7 @@ class HHCC:
         #hc.df.melt(id_vars=['plant','mac','time','aggFunc','aggSpan'],value_vars=["T","S","L","E"],var_name="parameter")
 
     def __consistency_check(self):
-        """ Checks :attr:`HHCC.df` for consistency and raises warning messages for the following case: The sensor can only store data for +-30(?) days. Therefore, warn the user to sync soon enough (15 days). """
+        """ Checks :attr:`pyHHCC.df` for consistency and raises warning messages for the following case: The sensor can only store data for +-30(?) days. Therefore, warn the user to sync soon enough (15 days). """
         warnTimeLimit = "15 days"
         self.df["no update for"] = pd.to_timedelta(dt.datetime.now()-self.df["time"])
         noUpSinceTable = self.df.pivot_table(values='no update for', aggfunc=np.min, index="plant")
@@ -176,7 +176,7 @@ class HHCC:
 
     def __aggregate_daily(self):
         """ The raw data are provided on an 1h basis. This function calculates min, max, mean and sum
-        for each parameter per day. This function acts inplace on :attr:`HHCC.df`."""
+        for each parameter per day. This function acts inplace on :attr:`pyHHCC.df`."""
         df = self.df[(self.df["aggFunc"] == "none") & (self.df["aggSpan"] == "1h") ].copy()
         df['time'] = pd.to_datetime(df['time'].dt.date)+pd.to_timedelta("12h")
         self.__aggregate_daily_helper(df, np.sum, "sum", "daily")
@@ -257,12 +257,12 @@ class HHCC:
         
         :param ax: The axis to draw the plot to.
         :type ax: `plt.ax`
-        :param plant: Name of the plant (for names, check :attr:`HHCC.list_of_plants`)
+        :param plant: Name of the plant (for names, check :attr:`pyHHCC.list_of_plants`)
         :type plant: `str`
         :param param: Which of the four parameter to plot: T, E, S, L.
         :type param: `str`
 
-        When this function is called as part of :meth:`HHCC.plot_onePlant`, :meth:`HHCC.plot_onePlant_batch` or :meth:`HHCC.plot_allPlants`, the following optional parameters can be set and pass though till this function. 
+        When this function is called as part of :meth:`pyHHCC.plot_onePlant`, :meth:`pyHHCC.plot_onePlant_batch` or :meth:`pyHHCC.plot_allPlants`, the following optional parameters can be set and pass though till this function. 
 
         :param light_as_integral: `True` to show the light as integral over one day, in this case, aggFunc and aggSpan are overwritten locally. Defaults to `false`.
         :type light_as_integral: `bool`, optional, passthrough
@@ -367,11 +367,11 @@ class HHCC:
             ax.get_yaxis().set_ticklabels([])
 
     def plot_onePlant(self, plant=None, **kwargs):
-        """ Generates one plot of the four parameters light, temperature, nutrition and light over time. For further available settings, see :meth:`HHCC.plot_onePlant_oneParam` - but some might be defined along the call stack.
+        """ Generates one plot of the four parameters light, temperature, nutrition and light over time. For further available settings, see :meth:`pyHHCC.plot_onePlant_oneParam` - but some might be defined along the call stack.
 
         :param plant: The plant that shall be plotted, defaults to the first plant. 
         :type plant: `str`, optional
-        :param store: `True` to store the plot. Defaults to `False`. See :meth:`HHCC.plot_save` for further details.
+        :param store: `True` to store the plot. Defaults to `False`. See :meth:`pyHHCC.plot_save` for further details.
         :type store: `bool`, optional
         :param landscape: `True` to provide a 2x2 plot. `False` to plot the parameters in one row. Defaults to `True`.
         :type landscape: `bool`, optional"""        
@@ -400,17 +400,17 @@ class HHCC:
         self.plot_save("Health of " + plant, **kwargs)
 
     def plot_onePlant_batch(self, **kwargs):
-        """ Calls :meth:`HHCC.plot_onePlant` for all available plants. For further available settings, see :meth:`HHCC.plot_onePlant_oneParam` - but some might be defined along the call stack.
+        """ Calls :meth:`pyHHCC.plot_onePlant` for all available plants. For further available settings, see :meth:`pyHHCC.plot_onePlant_oneParam` - but some might be defined along the call stack.
         
-        :param store: `True` to store the plot. Defaults to `False`. See :meth:`HHCC.plot_save` for further details.
+        :param store: `True` to store the plot. Defaults to `False`. See :meth:`pyHHCC.plot_save` for further details.
         :type store: `bool`, optional"""
         for plant in self.list_of_plants:
             self.plot_onePlant(plant, **kwargs)
 
     def plot_allPlants(self, **kwargs):
-        """ Generates one comprehensive plot for all plants and the four parameters light, temperature, nutrition and light over time. For further available settings, see :meth:`HHCC.plot_onePlant_oneParam` - but some might be defined along the call stack.
+        """ Generates one comprehensive plot for all plants and the four parameters light, temperature, nutrition and light over time. For further available settings, see :meth:`pyHHCC.plot_onePlant_oneParam` - but some might be defined along the call stack.
 
-        :param store: `True` to store the plot. Defaults to `False`. See :meth:`HHCC.plot_save` for further details.
+        :param store: `True` to store the plot. Defaults to `False`. See :meth:`pyHHCC.plot_save` for further details.
         :type store: `bool`, optional
         :param landscape: `True` to plot the plants as colums and the params as columns. `False` to plot transposed. Defaults to `True`.
         :type landscape: `bool`, optional""" 
@@ -440,4 +440,4 @@ class HHCC:
         plt.subplots_adjust(hspace=.001)
         plt.subplots_adjust(wspace=.001)
         
-        HHCC.plot_save("Overview", **kwargs)               
+        pyHHCC.plot_save("Overview", **kwargs)               

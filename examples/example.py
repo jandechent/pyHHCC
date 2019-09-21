@@ -1,4 +1,5 @@
-import HHCC
+from pyHHCC import pyHHCC
+
 import logging
 import pandas as pd
 
@@ -8,7 +9,7 @@ mpl_logger.setLevel(logging.WARNING)
 pd.set_option('display.width', 600)
 pd.set_option('display.max_columns', 10)
 
-hc = HHCC.HHCC("raw/")
+hc = pyHHCC("raw/")
 hc.rename_plants()
 hc.rename_plants({"Avocadobäumchen":"Avocado", "Yuccapalme":"Yucca"})
 
