@@ -1,4 +1,4 @@
-# HHCC.py
+# HHCC
 Can generate various overview plots for the plant and parameters provided from
 the export of the FlowerCare app by Xiaomi/HHCC. The [full documentation is provided here](https://github.com/jandechent/HHCC.py/blob/master/docs/markdown/index.md),
 here is a quick example:
