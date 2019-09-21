@@ -10,5 +10,5 @@ Documentation
    :maxdepth: 30
    :caption: Contents:
    
-.. autoclass:: HHCC.HHCC
+.. autoclass:: pyHHCC.pyHHCC
     :members:

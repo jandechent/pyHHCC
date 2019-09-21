@@ -18,7 +18,7 @@ sys.path.append("C:\Program Files (x86)\WPy64-3740\python-3.7.4.amd64\Lib\site-p
 
 # -- Project information -----------------------------------------------------
 
-project = 'HHCC.py'
+project = 'pyHHCC'
 copyright = '2019, Jan Dechent'
 author = 'Jan Dechent'
 

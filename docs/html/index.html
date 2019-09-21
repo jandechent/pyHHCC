@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Documentation &#8212; HHCC.py  documentation</title>
+    <title>Documentation &#8212; pyHHCC  documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -32,8 +32,8 @@
 <div class="toctree-wrapper compound">
 </div>
 <dl class="class">
-<dt id="HHCC.HHCC">
-<em class="property">class </em><code class="sig-prename descclassname">HHCC.</code><code class="sig-name descname">HHCC</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">ignorePickled=False</em><span class="sig-paren">)</span><a class="headerlink" href="#HHCC.HHCC" title="Permalink to this definition">¶</a></dt>
+<dt id="pyHHCC.pyHHCC">
+<em class="property">class </em><code class="sig-prename descclassname">pyHHCC.</code><code class="sig-name descname">pyHHCC</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">ignorePickled=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyHHCC.pyHHCC" title="Permalink to this definition">¶</a></dt>
 <dd><p>Can generate various overview plots for the plant and parameters provided from the export of the FlowerCare app by Xiaomi/HHCC.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -57,13 +57,13 @@ show daily data for the sum of light.</p></li>
 </dd>
 </dl>
 <dl class="method">
-<dt id="HHCC.HHCC.plot_allPlants">
-<code class="sig-name descname">plot_allPlants</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#HHCC.HHCC.plot_allPlants" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates one comprehensive plot for all plants and the four parameters light, temperature, nutrition and light over time. For further available settings, see <a class="reference internal" href="#HHCC.HHCC.plot_onePlant_oneParam" title="HHCC.HHCC.plot_onePlant_oneParam"><code class="xref py py-meth docutils literal notranslate"><span class="pre">HHCC.plot_onePlant_oneParam()</span></code></a> - but some might be defined along the call stack.</p>
+<dt id="pyHHCC.pyHHCC.plot_allPlants">
+<code class="sig-name descname">plot_allPlants</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyHHCC.pyHHCC.plot_allPlants" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates one comprehensive plot for all plants and the four parameters light, temperature, nutrition and light over time. For further available settings, see <a class="reference internal" href="#pyHHCC.pyHHCC.plot_onePlant_oneParam" title="pyHHCC.pyHHCC.plot_onePlant_oneParam"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyHHCC.plot_onePlant_oneParam()</span></code></a> - but some might be defined along the call stack.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>store</strong> (<cite>bool</cite>, optional) – <cite>True</cite> to store the plot. Defaults to <cite>False</cite>. See <a class="reference internal" href="#HHCC.HHCC.plot_save" title="HHCC.HHCC.plot_save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">HHCC.plot_save()</span></code></a> for further details.</p></li>
+<li><p><strong>store</strong> (<cite>bool</cite>, optional) – <cite>True</cite> to store the plot. Defaults to <cite>False</cite>. See <a class="reference internal" href="#pyHHCC.pyHHCC.plot_save" title="pyHHCC.pyHHCC.plot_save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyHHCC.plot_save()</span></code></a> for further details.</p></li>
 <li><p><strong>landscape</strong> (<cite>bool</cite>, optional) – <cite>True</cite> to plot the plants as colums and the params as columns. <cite>False</cite> to plot transposed. Defaults to <cite>True</cite>.</p></li>
 </ul>
 </dd>
@@ -71,14 +71,14 @@ show daily data for the sum of light.</p></li>
 </dd></dl>
 
 <dl class="method">
-<dt id="HHCC.HHCC.plot_onePlant">
-<code class="sig-name descname">plot_onePlant</code><span class="sig-paren">(</span><em class="sig-param">plant=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#HHCC.HHCC.plot_onePlant" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates one plot of the four parameters light, temperature, nutrition and light over time. For further available settings, see <a class="reference internal" href="#HHCC.HHCC.plot_onePlant_oneParam" title="HHCC.HHCC.plot_onePlant_oneParam"><code class="xref py py-meth docutils literal notranslate"><span class="pre">HHCC.plot_onePlant_oneParam()</span></code></a> - but some might be defined along the call stack.</p>
+<dt id="pyHHCC.pyHHCC.plot_onePlant">
+<code class="sig-name descname">plot_onePlant</code><span class="sig-paren">(</span><em class="sig-param">plant=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyHHCC.pyHHCC.plot_onePlant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates one plot of the four parameters light, temperature, nutrition and light over time. For further available settings, see <a class="reference internal" href="#pyHHCC.pyHHCC.plot_onePlant_oneParam" title="pyHHCC.pyHHCC.plot_onePlant_oneParam"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyHHCC.plot_onePlant_oneParam()</span></code></a> - but some might be defined along the call stack.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>plant</strong> (<cite>str</cite>, optional) – The plant that shall be plotted, defaults to the first plant.</p></li>
-<li><p><strong>store</strong> (<cite>bool</cite>, optional) – <cite>True</cite> to store the plot. Defaults to <cite>False</cite>. See <a class="reference internal" href="#HHCC.HHCC.plot_save" title="HHCC.HHCC.plot_save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">HHCC.plot_save()</span></code></a> for further details.</p></li>
+<li><p><strong>store</strong> (<cite>bool</cite>, optional) – <cite>True</cite> to store the plot. Defaults to <cite>False</cite>. See <a class="reference internal" href="#pyHHCC.pyHHCC.plot_save" title="pyHHCC.pyHHCC.plot_save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyHHCC.plot_save()</span></code></a> for further details.</p></li>
 <li><p><strong>landscape</strong> (<cite>bool</cite>, optional) – <cite>True</cite> to provide a 2x2 plot. <cite>False</cite> to plot the parameters in one row. Defaults to <cite>True</cite>.</p></li>
 </ul>
 </dd>
@@ -86,30 +86,30 @@ show daily data for the sum of light.</p></li>
 </dd></dl>
 
 <dl class="method">
-<dt id="HHCC.HHCC.plot_onePlant_batch">
-<code class="sig-name descname">plot_onePlant_batch</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#HHCC.HHCC.plot_onePlant_batch" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calls <a class="reference internal" href="#HHCC.HHCC.plot_onePlant" title="HHCC.HHCC.plot_onePlant"><code class="xref py py-meth docutils literal notranslate"><span class="pre">HHCC.plot_onePlant()</span></code></a> for all available plants. For further available settings, see <a class="reference internal" href="#HHCC.HHCC.plot_onePlant_oneParam" title="HHCC.HHCC.plot_onePlant_oneParam"><code class="xref py py-meth docutils literal notranslate"><span class="pre">HHCC.plot_onePlant_oneParam()</span></code></a> - but some might be defined along the call stack.</p>
+<dt id="pyHHCC.pyHHCC.plot_onePlant_batch">
+<code class="sig-name descname">plot_onePlant_batch</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyHHCC.pyHHCC.plot_onePlant_batch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls <a class="reference internal" href="#pyHHCC.pyHHCC.plot_onePlant" title="pyHHCC.pyHHCC.plot_onePlant"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyHHCC.plot_onePlant()</span></code></a> for all available plants. For further available settings, see <a class="reference internal" href="#pyHHCC.pyHHCC.plot_onePlant_oneParam" title="pyHHCC.pyHHCC.plot_onePlant_oneParam"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyHHCC.plot_onePlant_oneParam()</span></code></a> - but some might be defined along the call stack.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>store</strong> (<cite>bool</cite>, optional) – <cite>True</cite> to store the plot. Defaults to <cite>False</cite>. See <a class="reference internal" href="#HHCC.HHCC.plot_save" title="HHCC.HHCC.plot_save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">HHCC.plot_save()</span></code></a> for further details.</p>
+<dd class="field-odd"><p><strong>store</strong> (<cite>bool</cite>, optional) – <cite>True</cite> to store the plot. Defaults to <cite>False</cite>. See <a class="reference internal" href="#pyHHCC.pyHHCC.plot_save" title="pyHHCC.pyHHCC.plot_save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyHHCC.plot_save()</span></code></a> for further details.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
-<dt id="HHCC.HHCC.plot_onePlant_oneParam">
-<code class="sig-name descname">plot_onePlant_oneParam</code><span class="sig-paren">(</span><em class="sig-param">ax</em>, <em class="sig-param">plant</em>, <em class="sig-param">param</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#HHCC.HHCC.plot_onePlant_oneParam" title="Permalink to this definition">¶</a></dt>
+<dt id="pyHHCC.pyHHCC.plot_onePlant_oneParam">
+<code class="sig-name descname">plot_onePlant_oneParam</code><span class="sig-paren">(</span><em class="sig-param">ax</em>, <em class="sig-param">plant</em>, <em class="sig-param">param</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyHHCC.pyHHCC.plot_onePlant_oneParam" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plots dta from one plant and the passed parameter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ax</strong> (<cite>plt.ax</cite>) – The axis to draw the plot to.</p></li>
-<li><p><strong>plant</strong> (<cite>str</cite>) – Name of the plant (for names, check <code class="xref py py-attr docutils literal notranslate"><span class="pre">HHCC.list_of_plants</span></code>)</p></li>
+<li><p><strong>plant</strong> (<cite>str</cite>) – Name of the plant (for names, check <code class="xref py py-attr docutils literal notranslate"><span class="pre">pyHHCC.list_of_plants</span></code>)</p></li>
 <li><p><strong>param</strong> (<cite>str</cite>) – Which of the four parameter to plot: T, E, S, L.</p></li>
 </ul>
 </dd>
 </dl>
-<p>When this function is called as part of <a class="reference internal" href="#HHCC.HHCC.plot_onePlant" title="HHCC.HHCC.plot_onePlant"><code class="xref py py-meth docutils literal notranslate"><span class="pre">HHCC.plot_onePlant()</span></code></a>, <a class="reference internal" href="#HHCC.HHCC.plot_onePlant_batch" title="HHCC.HHCC.plot_onePlant_batch"><code class="xref py py-meth docutils literal notranslate"><span class="pre">HHCC.plot_onePlant_batch()</span></code></a> or <a class="reference internal" href="#HHCC.HHCC.plot_allPlants" title="HHCC.HHCC.plot_allPlants"><code class="xref py py-meth docutils literal notranslate"><span class="pre">HHCC.plot_allPlants()</span></code></a>, the following optional parameters can be set and pass though till this function.</p>
+<p>When this function is called as part of <a class="reference internal" href="#pyHHCC.pyHHCC.plot_onePlant" title="pyHHCC.pyHHCC.plot_onePlant"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyHHCC.plot_onePlant()</span></code></a>, <a class="reference internal" href="#pyHHCC.pyHHCC.plot_onePlant_batch" title="pyHHCC.pyHHCC.plot_onePlant_batch"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyHHCC.plot_onePlant_batch()</span></code></a> or <a class="reference internal" href="#pyHHCC.pyHHCC.plot_allPlants" title="pyHHCC.pyHHCC.plot_allPlants"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyHHCC.plot_allPlants()</span></code></a>, the following optional parameters can be set and pass though till this function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -137,13 +137,13 @@ show daily data for the sum of light.</p></li>
 </dd></dl>
 
 <dl class="method">
-<dt id="HHCC.HHCC.plot_save">
-<em class="property">static </em><code class="sig-name descname">plot_save</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#HHCC.HHCC.plot_save" title="Permalink to this definition">¶</a></dt>
+<dt id="pyHHCC.pyHHCC.plot_save">
+<code class="sig-name descname">plot_save</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyHHCC.pyHHCC.plot_save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stores the current figure.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>store</strong> (<cite>bool</cite>) – <cite>True</cite> to store the plot. Defaults to <cite>False</cite>. See <a class="reference internal" href="#HHCC.HHCC.plot_save" title="HHCC.HHCC.plot_save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">HHCC.plot_save()</span></code></a> for further details.</p></li>
+<li><p><strong>store</strong> (<cite>bool</cite>) – <cite>True</cite> to store the plot. Defaults to <cite>False</cite>.</p></li>
 <li><p><strong>outputdir</strong> (<cite>str</cite>, optional) – The output directory for the plots, which can be generated. Defautls to “plots/”</p></li>
 <li><p><strong>dpi</strong> (<cite>int</cite>, optional) – The dpi of the plot, defaults to 300</p></li>
 <li><p><strong>override_name</strong> (<cite>str</cite>, optional) – Overwrites the default naming with this name.</p></li>
@@ -153,8 +153,8 @@ show daily data for the sum of light.</p></li>
 </dd></dl>
 
 <dl class="method">
-<dt id="HHCC.HHCC.rename_plants">
-<code class="sig-name descname">rename_plants</code><span class="sig-paren">(</span><em class="sig-param">rules=None</em><span class="sig-paren">)</span><a class="headerlink" href="#HHCC.HHCC.rename_plants" title="Permalink to this definition">¶</a></dt>
+<dt id="pyHHCC.pyHHCC.rename_plants">
+<code class="sig-name descname">rename_plants</code><span class="sig-paren">(</span><em class="sig-param">rules=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyHHCC.pyHHCC.rename_plants" title="Permalink to this definition">¶</a></dt>
 <dd><p>Renames the plants based on the passed dict.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -173,7 +173,7 @@ show daily data for the sum of light.</p></li>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="#">HHCC.py</a></h1>
+<h1 class="logo"><a href="#">pyHHCC</a></h1>
 
 
 

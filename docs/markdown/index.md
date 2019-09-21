@@ -5,7 +5,7 @@ contain the root `toctree` directive. -->
 # Documentation
 
 
-#### class HHCC.HHCC(filename, ignorePickled=False)
+#### class pyHHCC.pyHHCC(filename, ignorePickled=False)
 Can generate various overview plots for the plant and parameters provided from the export of the FlowerCare app by Xiaomi/HHCC.
 
 
@@ -35,38 +35,38 @@ Can generate various overview plots for the plant and parameters provided from t
 
 
 #### plot_allPlants(\*\*kwargs)
-Generates one comprehensive plot for all plants and the four parameters light, temperature, nutrition and light over time. For further available settings, see `HHCC.plot_onePlant_oneParam()` - but some might be defined along the call stack.
+Generates one comprehensive plot for all plants and the four parameters light, temperature, nutrition and light over time. For further available settings, see `pyHHCC.plot_onePlant_oneParam()` - but some might be defined along the call stack.
 
 
 * **Parameters**
 
-    * **store** (bool, optional) – True to store the plot. Defaults to False. See `HHCC.plot_save()` for further details.
+    * **store** (bool, optional) – True to store the plot. Defaults to False. See `pyHHCC.plot_save()` for further details.
 
     * **landscape** (bool, optional) – True to plot the plants as colums and the params as columns. False to plot transposed. Defaults to True.
 
 
 
 #### plot_onePlant(plant=None, \*\*kwargs)
-Generates one plot of the four parameters light, temperature, nutrition and light over time. For further available settings, see `HHCC.plot_onePlant_oneParam()` - but some might be defined along the call stack.
+Generates one plot of the four parameters light, temperature, nutrition and light over time. For further available settings, see `pyHHCC.plot_onePlant_oneParam()` - but some might be defined along the call stack.
 
 
 * **Parameters**
 
     * **plant** (str, optional) – The plant that shall be plotted, defaults to the first plant.
 
-    * **store** (bool, optional) – True to store the plot. Defaults to False. See `HHCC.plot_save()` for further details.
+    * **store** (bool, optional) – True to store the plot. Defaults to False. See `pyHHCC.plot_save()` for further details.
 
     * **landscape** (bool, optional) – True to provide a 2x2 plot. False to plot the parameters in one row. Defaults to True.
 
 
 
 #### plot_onePlant_batch(\*\*kwargs)
-Calls `HHCC.plot_onePlant()` for all available plants. For further available settings, see `HHCC.plot_onePlant_oneParam()` - but some might be defined along the call stack.
+Calls `pyHHCC.plot_onePlant()` for all available plants. For further available settings, see `pyHHCC.plot_onePlant_oneParam()` - but some might be defined along the call stack.
 
 
 * **Parameters**
 
-    **store** (bool, optional) – True to store the plot. Defaults to False. See `HHCC.plot_save()` for further details.
+    **store** (bool, optional) – True to store the plot. Defaults to False. See `pyHHCC.plot_save()` for further details.
 
 
 
@@ -78,12 +78,12 @@ Plots dta from one plant and the passed parameter.
 
     * **ax** (plt.ax) – The axis to draw the plot to.
 
-    * **plant** (str) – Name of the plant (for names, check `HHCC.list_of_plants`)
+    * **plant** (str) – Name of the plant (for names, check `pyHHCC.list_of_plants`)
 
     * **param** (str) – Which of the four parameter to plot: T, E, S, L.
 
 
-When this function is called as part of `HHCC.plot_onePlant()`, `HHCC.plot_onePlant_batch()` or `HHCC.plot_allPlants()`, the following optional parameters can be set and pass though till this function.
+When this function is called as part of `pyHHCC.plot_onePlant()`, `pyHHCC.plot_onePlant_batch()` or `pyHHCC.plot_allPlants()`, the following optional parameters can be set and pass though till this function.
 
 
 * **Parameters**
@@ -118,13 +118,13 @@ The following parameters are typically pre set by the superseeding functions abo
 
 
 
-#### static plot_save(name, \*\*kwargs)
+#### plot_save(name, \*\*kwargs)
 Stores the current figure.
 
 
 * **Parameters**
 
-    * **store** (bool) – True to store the plot. Defaults to False. See `HHCC.plot_save()` for further details.
+    * **store** (bool) – True to store the plot. Defaults to False.
 
     * **outputdir** (str, optional) – The output directory for the plots, which can be generated. Defautls to “plots/”
 
