@@ -1,29 +1,20 @@
 from pyHHCC import pyHHCC
 
-import logging
-import pandas as pd
+if __name__ == '__main__' :
+    # some improvements to logging and outout of pandas dataframes:
+    import logging
+    import pandas as pd
+    logging.basicConfig(
+            level=logging.DEBUG,
+            format='%(name)s-%(lineno)4d-%(levelname)7s: %(message)s')
+    mpl_logger = logging.getLogger('matplotlib')
+    mpl_logger.setLevel(logging.WARNING)
+    pd.set_option('display.width', 600)
+    pd.set_option('display.max_columns', 10)
 
-logging.basicConfig(level=logging.DEBUG)
-mpl_logger = logging.getLogger('matplotlib')
-mpl_logger.setLevel(logging.WARNING)
-pd.set_option('display.width', 600)
-pd.set_option('display.max_columns', 10)
-
-hc = pyHHCC("raw/")
-hc.rename_plants()
-hc.rename_plants({"Avocadobäumchen":"Avocado", "Yuccapalme":"Yucca"})
-
+hc = pyHHCC("examples/example")
 hc.plot_onePlant()
-#hc.plot_allPlants()
-
-#hc.rolling_mean(["24h", "48h", "72h"],"none","1h")
-#hc.plot_onePlant(aggSpan="1h",store='ftp')
-##hc.plot_onePlant(aggSpan="24h",aggFunc="mean")
-#hc.plot_onePlant(aggSpan="72h",aggFunc="mean")
-
-if False:
-    hc.plot_onePlant_batch(store=True, time_delta="150days", light_as_integral=False)
-    hc.plot_allPlants(store=True, light_as_integral=False)
+hc.plot_onePlant(aggSpan="48h", aggFunc="mean")
 
 if False:
     hc.plot_allPlants(override_name="plot_allPlants_lanscapeTrue_lightintTrue", store=True, landscape=True,light_as_integral=True)

@@ -1,7 +1,5 @@
-# Project internal files
-*.csv
-*.pkl
-*.png
+# where my csv exports are located:
+private/*
 
 # Python byte-compiled / optimized / DLL files
 __pycache__/
@@ -9,5 +7,5 @@ __pycache__/
 *$py.class
 /.directory
 
-
+# from the profiler
 *.cprof

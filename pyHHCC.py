@@ -15,6 +15,8 @@ import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 # register_matplotlib_converters()
 
+logger = logging.getLogger(__name__)
+
 class pyHHCC:
     """ Can generate various overview plots for the plant and parameters provided from the export of the FlowerCare app by Xiaomi/HHCC.
     
@@ -32,7 +34,6 @@ class pyHHCC:
     :ivar param: A dict for each parameter (E, L, S, T) to define 'color' for the plots and 'label' for the data.
     :ivar df: the actual pandas dataframe, containing the data."""
     def __init__(self, filename, ignorePickled=False):
-        self.log = logging.getLogger(__name__)
         self.param = {"E": {'color':"g",
                             'label':"nutrition (ms/cm)",
                             'label_short':"nutr"},
@@ -46,22 +47,22 @@ class pyHHCC:
                             'label':"temperature (°)",
                             'label_short':"temp"}}
         if os.path.isdir(filename):
-            self.log.info("finding .csv with latest creation date from folder: %s", filename)
+            logger.info("finding .csv with latest creation date from folder: %s", filename)
             list_of_files = glob.glob(filename+'*.csv') # * means all if need specific format then *.csv
             filename = max(list_of_files, key=os.path.getmtime)
 
         self.df = None
         if os.path.exists(filename+".pkl") & (not ignorePickled):
-            self.log.info("loading pkl version of: %s", filename)
+            logger.info("loading pkl version of: %s", filename)
             try:
                 self.df = pd.read_pickle(filename + ".pkl")
             except Exception as ex:
-                self.log.warning("loading failed, attemting to read .csv file:")
-                if self.log.level == logging.DEBUG:
+                logger.warning("loading failed, attemting to read .csv file:")
+                if logger.level == logging.DEBUG:
                     raise ex
 
         if self.df is None:
-            self.log.info("loading: %s", filename)
+            logger.info("loading: %s", filename)
             self.__load(filename)
             self.__delete_sensor_fails()
             self.__convert_units()
@@ -170,7 +171,7 @@ class pyHHCC:
         noUpSinceBool = self.df.pivot_table(values='no update for', aggfunc=np.min, index="plant") > pd.to_timedelta(warnTimeLimit)
         noUpSinceBoolSum = noUpSinceBool.agg("sum").values[0]
         if noUpSinceBoolSum > 0:
-            self.log.warning("at least one plant was not updated for %s since today:\n %s", warnTimeLimit,
+            logger.warning("at least one plant was not updated for %s since today:\n %s", warnTimeLimit,
                              noUpSinceTable.sort_values(by=['no update for'], ascending=False).astype("timedelta64[D]").to_string())
         self.df.drop(["no update for"], axis=1, inplace=True)
 
@@ -204,7 +205,7 @@ class pyHHCC:
             wnds = [wnds]
         for wnd in wnds:
             if wnd in self.df.aggSpan.unique():
-                self.log.warning("aggSpan %s already exists, skipping.",wnd)
+                logger.warning("aggSpan %s already exists, skipping.",wnd)
             else:
                 for index, sub_df in df.groupby(['plant', 'mac']):
                     sub_df = sub_df.reset_index(['plant', 'mac'],drop=True)
@@ -356,7 +357,7 @@ class pyHHCC:
             ax.xaxis.set_minor_locator(hours)
             ax.format_xdata = mdates.DateFormatter('%Y-%m-%d')
         else:
-            self.log.error("unknown parameter for 'time_labels' ")
+            logger.error("unknown parameter for 'time_labels' ")
         
         if kwargs.get('hide_xTicks', False) | kwargs.get('hide_ticks', False):
             ax.get_xaxis().set_ticks([])
